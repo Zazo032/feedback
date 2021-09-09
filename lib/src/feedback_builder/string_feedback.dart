@@ -2,7 +2,6 @@ import 'package:feedback/src/better_feedback.dart';
 import 'package:feedback/src/l18n/translation.dart';
 import 'package:feedback/src/theme/feedback_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 /// Prompt the user for feedback using `StringFeedback`.
 Widget simpleFeedbackBuilder(BuildContext context, OnSubmit onSubmit) =>
@@ -32,9 +31,17 @@ class _StringFeedbackState extends State<StringFeedback> {
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Column(
+      children: <Widget>[
         Expanded(
           child: ListView(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -63,6 +70,6 @@ class _StringFeedbackState extends State<StringFeedback> {
         ),
         const SizedBox(height: 8),
       ],
-    );
+    ),);
   }
 }
